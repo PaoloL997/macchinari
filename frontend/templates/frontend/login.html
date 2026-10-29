@@ -1,0 +1,44 @@
+{% load static %}<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Accedi · Macchinari</title>
+  <link rel="icon" href="{% static 'frontend/img/logo.png' %}">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
+  <link rel="stylesheet" href="{% static 'frontend/app.css' %}">
+</head>
+<body class="login-page">
+  <main class="login">
+    <form class="login__card" method="post" action="{% url 'login' %}" novalidate>
+      {% csrf_token %}
+      <input type="hidden" name="next" value="{{ next }}">
+
+      <div class="login__brand">
+        <img class="login__logo" src="{% static 'frontend/img/logo.png' %}" alt="Brembana &amp; Rolle" width="56" height="56">
+        <h1 class="login__title">Macchinari</h1>
+        <p class="login__subtitle">Accedi con le credenziali del dominio</p>
+      </div>
+
+      {% if form.non_field_errors %}
+        <div class="login__error" role="alert">{{ form.non_field_errors.0 }}</div>
+      {% elif form.errors %}
+        <div class="login__error" role="alert">Inserisci utente e password.</div>
+      {% endif %}
+
+      <div class="login__field">
+        <label class="label" for="{{ form.username.id_for_label }}">{{ form.username.label }}</label>
+        {{ form.username }}
+      </div>
+      <div class="login__field">
+        <label class="label" for="{{ form.password.id_for_label }}">{{ form.password.label }}</label>
+        {{ form.password }}
+      </div>
+
+      <button class="button login__submit" type="submit">Accedi</button>
+    </form>
+  </main>
+</body>
+</html>

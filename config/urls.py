@@ -8,6 +8,7 @@ urlpatterns = [
     path("api/", include("core.urls")),
     path("api/", include("capabilities.files.urls")),
     path("api/", include("capabilities.status.urls")),
+    path("", include("frontend.urls")),
 ]
 
 if settings.DEBUG:

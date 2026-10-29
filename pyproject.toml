@@ -8,6 +8,7 @@ authors = [
 ]
 requires-python = ">=3.13"
 dependencies = [
+    "brembana-auth[django]",
     "django>=6.1.2",
     "djangorestframework>=3.18.3",
     "dotenv>=0.9.9",
@@ -21,3 +22,6 @@ macchinari = "macchinari:main"
 [build-system]
 requires = ["uv_build>=0.12.14,<0.13.0"]
 build-backend = "uv_build"
+
+[tool.uv.sources]
+brembana-auth = { git = "ssh://git@github.com/PaoloL997/brembana-auth.git", rev = "b67946fd2d2dce5f1316346785d2c311bd7e52be" }

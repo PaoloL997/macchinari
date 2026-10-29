@@ -12,8 +12,14 @@ https://docs.djangoproject.com/en/6.0/ref/settings/
 
 from pathlib import Path
 
+from dotenv import load_dotenv
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+# Load BASE_DIR/.env into os.environ (brembana_auth reads its BREMBANA_LDAP_*
+# settings from there). Variables already set in the environment win.
+load_dotenv(BASE_DIR / ".env")
 
 
 # Quick-start development settings - unsuitable for production
@@ -38,9 +44,11 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
+    'brembana_auth',
     'core',
     'capabilities.files',
-    'capabilities.status'
+    'capabilities.status',
+    'frontend',
 ]
 
 MIDDLEWARE = [
@@ -81,6 +89,34 @@ DATABASES = {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
     }
+}
+
+
+# Authentication
+# Users log in with their Windows domain credentials (brembana-auth, LDAPS).
+# ModelBackend stays as fallback for local accounts such as the admin superuser.
+
+AUTHENTICATION_BACKENDS = [
+    'brembana_auth.backend.LDAPBackend',
+    'django.contrib.auth.backends.ModelBackend',
+]
+
+LOGIN_URL = 'login'
+LOGIN_REDIRECT_URL = 'index'
+LOGOUT_REDIRECT_URL = 'login'
+
+
+# REST framework
+# The API is used by the portal page only: the browser session authenticates
+# every request and anonymous calls get a 401 (see core.authentication).
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'core.authentication.SessionAuthentication',
+    ],
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticated',
+    ],
 }
 
 

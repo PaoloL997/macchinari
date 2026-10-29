@@ -1,0 +1,52 @@
+{% load static %}<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Macchinari</title>
+  <link rel="icon" href="{% static 'frontend/img/logo.png' %}">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
+  <link rel="stylesheet" href="{% static 'frontend/app.css' %}">
+</head>
+<body>
+  <header class="header">
+    <div class="header__brand">
+      <span class="header__brand-name">Brembana&amp;Rolle</span>
+      <span class="header__brand-sep" aria-hidden="true">/</span>
+      <span class="header__title">Macchinari</span>
+    </div>
+    <div class="header__tools">
+      <div class="search" id="machine-search">
+        <input class="text-input search__input" id="machine-search-input" type="search" placeholder="Cerca macchinario"
+               aria-label="Cerca macchinario" autocomplete="off" hidden>
+        <button class="icon-button icon-button--lg" id="machine-search-toggle" type="button"
+                aria-label="Cerca macchinario" aria-expanded="false" aria-controls="machine-search-input"></button>
+      </div>
+      <span class="header__divider" aria-hidden="true"></span>
+      <div class="user">
+        <span class="user__avatar" aria-hidden="true">{{ user.first_name|slice:":1"|upper }}{{ user.last_name|slice:":1"|upper }}{% if not user.first_name and not user.last_name %}{{ user.username|slice:":2"|upper }}{% endif %}</span>
+        <span class="user__text">
+          <span class="user__name">{{ user.get_full_name|default:user.username }}</span>
+          <span class="user__role">{{ user.ad_profile.title|default:"—" }}</span>
+        </span>
+        <form class="user__logout" method="post" action="{% url 'logout' %}">
+          {% csrf_token %}
+          <button class="icon-button icon-button--ghost" type="submit" aria-label="Esci" title="Esci">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M10 4H6a1.5 1.5 0 0 0-1.5 1.5v13A1.5 1.5 0 0 0 6 20h4"/><path d="M15 8l4 4-4 4"/><path d="M19 12H9"/></svg>
+          </button>
+        </form>
+      </div>
+    </div>
+  </header>
+
+  <main class="main">
+    <div id="machines" class="grid" aria-live="polite" aria-busy="true"></div>
+  </main>
+
+  <div id="modal-root"></div>
+
+  <script type="module" src="{% static 'frontend/app.js' %}"></script>
+</body>
+</html>
