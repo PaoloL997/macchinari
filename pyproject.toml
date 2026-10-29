@@ -1,7 +1,7 @@
 [project]
 name = "macchinari"
 version = "0.1.0"
-description = "Add your description here"
+description = "Web portal to manage shop-floor machines through their agents: file transfer and status"
 readme = "README.md"
 authors = [
     { name = "Paolo Litta", email = "paolo.litta.br@gmail.com" }
